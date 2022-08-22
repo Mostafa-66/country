@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request
+  skip_before_action :authorize_request, only: :create
   attr_accessor :activation_token
     
   # POST /signup
@@ -17,32 +17,36 @@ class UsersController < ApplicationController
     end
   end
 
-  def confirm_email
-    user = User.find_by_activation_digest(params[:id])
-    if user
-      user.email_activate
-      render json:[message:"Welcome to Countries App"]
+  #PUT /complete
+  #Users complete thiere profile
+  def complete
+    @user = User.find_by!(email: params[:email])
+    if @user && @user.activated?
+      if @user.update(user_params2)
+        @user.update(completed: true)
+        render json: [message: "Profile completed"]
+      end
     else
-      render json:[message:"Sorry. User does not exist"]
+      render json: [message: "Please activate your account"]
     end
   end
-
-  def email_activate
-    self.activated = true
-    self.activation_digest = nil
-    save!(:validate => false)
-  end
-
 
   
   private
   
   def user_params
     params.permit(
-      :name,
       :email,
       :password,
       :password_confirmation
+    )
+  end
+
+  def user_params2
+    params.permit(
+      :name,
+      :phone,
+      :gender
     )
   end
     

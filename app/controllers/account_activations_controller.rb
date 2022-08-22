@@ -3,8 +3,7 @@ class AccountActivationsController < ApplicationController
     def edit
         user = User.find_by(email: params[:email])
         if user && !user.activated?
-            user.activated = true
-            user.activation_digest = nil
+            user.update(activated: true, activation_digest: nil)
             render json:[message:"Welcome to Countries App"]
         else
             render json:[message:"Invalid Link"]

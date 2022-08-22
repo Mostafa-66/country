@@ -36,11 +36,4 @@ class AuthorizeApiRequest
     end
     raise(ExceptionHandler::MissingToken, Message.missing_token)
   end
-
-  def active
-    @user ||= User.find(decoded_auth_token[:user_id])
-    if !@user.activated?
-      render json:[message:"Please Activate the Account"]
-    end
-  end
 end
