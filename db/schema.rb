@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_21_140310) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_23_131156) do
   create_table "countries", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "expiry_tokens", force: :cascade do |t|
+    t.string "exp_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -29,6 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_21_140310) do
     t.string "phone"
     t.string "gender"
     t.boolean "completed", default: false
+    t.string "auth_token"
   end
 
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: :create
+  skip_before_action :authorize_request, :check_token, only: :create
   attr_accessor :activation_token
     
   # POST /signup
@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       response = { message: "Please check your email to activate your account.", 
         auth_token: auth_token }
       json_response(response, :created)
+      @user.update(auth_token: auth_token)
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
