@@ -31,7 +31,16 @@ class AuthorizeApiRequest
   
   # check for token in `Authorization` header
   def http_auth_header
+    exp_tokens = ExpiryToken.all
+    users = User.all
     if headers['Authorization'].present?
+      exp_tokens.each do |exp_token|
+        users.each do |user|
+          if exp_token.exp_token == user.auth_token
+            raise(ExceptionHandler::InvalidToken, Message.expired_token)
+          end
+        end
+      end
       return headers['Authorization'].split(' ').last
     end
     raise(ExceptionHandler::MissingToken, Message.missing_token)

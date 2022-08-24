@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, :check_token, only: :create
+  skip_before_action :authorize_request, only: :create
   attr_accessor :activation_token
     
   # POST /signup

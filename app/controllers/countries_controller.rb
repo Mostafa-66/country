@@ -1,11 +1,12 @@
 class CountriesController < ApplicationController
     def index
-        user = User.find_by!(email: params[:email])
-        if user && user.activated?
-            json_response(message:"Hello, Countries")
-        else
-            json_response(message:"Please activate your account")
-        end
+        # user = User.find_by!(email: params[:email])
+        # if user && user.activated?
+        #     json_response(message:"Hello, Countries")
+        # else
+        #     json_response(message:"Please activate your account")
+        # end
+        render json: [message: "Hello"]
     end
 
     def show
