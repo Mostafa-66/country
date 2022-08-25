@@ -12,7 +12,6 @@ class UsersController < ApplicationController
       response = { message: "Please check your email to activate your account.", 
         auth_token: auth_token }
       json_response(response, :created)
-      @user.update(auth_token: auth_token)
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
